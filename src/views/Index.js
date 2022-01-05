@@ -10,7 +10,8 @@ import Uploader from "../components/uploader";
 
 const Index = () => {
   const socket = io();
-  const {toastAlert, isVisible, setIsVisible, message, error} = useToastAlert()
+  const { toastAlert, isVisible, setIsVisible, message, error } =
+    useToastAlert();
   const [btnText, setBtnText] = useState("Upload File");
   const history = useHistory();
 
@@ -49,7 +50,7 @@ const Index = () => {
         setIsVisible={setIsVisible}
       />
       <Nav history={history} />
-      <Uploader action={submit} image={upload} btnText = {btnText} />
+      <Uploader isHome action={submit} image={upload} btnText={btnText} />
     </div>
   );
 };

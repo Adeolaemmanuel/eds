@@ -5,11 +5,15 @@ const Uploader = ({
   btnStyle,
   height = window.screen.height,
   btnText,
+  isHome,
 }) => {
   return (
     <div className="w3-container">
-      <div className="w3-center">
-        <form className="w3-display-middle" style={{ width: height }}>
+      <div className={`${isHome && "w3-center"}`}>
+        <form
+          className={`${isHome && "w3-display-middle"}`}
+          style={{ width: height }}
+        >
           <input
             type="file"
             className="w3-hide"
@@ -29,8 +33,8 @@ const Uploader = ({
           )}
           <label
             htmlFor="fileInput"
-            className="w3-btn w3-ripple w3-blue w3-round"
-            style={{ marginTop: 50, width: 200, ...btnStyle }}
+            className={`${isHome ? "w3-btn w3-ripple w3-blue w3-round": "w3-btn w3-ripple w3-blue w3-right w3-round"}`}
+            style={{ marginTop: isHome && 50, width: 200, ...btnStyle }}
           >
             {btnText}
           </label>

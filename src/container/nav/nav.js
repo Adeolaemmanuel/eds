@@ -4,8 +4,11 @@ import menu from "../../assets/img/menu.png";
 import Uploader from "../../components/uploader";
 import routes from "./routes";
 import axios from "axios";
+import { useToastAlert } from "../../assets/scripts/utils";
 const Nav = () => {
   const [sideBar, setSidebar] = useState(false);
+  const {toastAlert, isVisible, setIsVisible, message, error} = useToastAlert()
+  const [btnText, setBtnText] = useState("Upload File");
   const history = useHistory();
   const currentPath = history.location.pathname;
 
