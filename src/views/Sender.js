@@ -50,12 +50,12 @@ const Sender = () => {
         toastAlert(resp.error, true);
       }
     });
-    socket.on("count", (resp) => {
-      toastAlert(`Extracted ${resp.msg.email} email and ${resp.msg.name} name`);
-    });
-    socket.on("sent", (resp) => {
-      toastAlert(`${resp.msg.email} mail sent`);
-    });
+    // socket.on("count", (resp) => {
+    //   toastAlert(`Extracted ${resp.msg.email} email and ${resp.msg.name} name`);
+    // });
+    // socket.on("sent", (resp) => {
+    //   toastAlert(`${resp.msg.email} mail sent`);
+    // });
   }, []);
 
   const submit = async () => {

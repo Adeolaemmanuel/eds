@@ -15,9 +15,9 @@ const Index = () => {
   const history = useHistory();
 
   useEffect(() => {
-    socket.on("connected", (resp) => {
-      toastAlert(resp.msg);
-    });
+    // socket.on("connected", (resp) => {
+    //   toastAlert(resp.msg);
+    // });
   }, []);
 
   const submit = (file) => {
