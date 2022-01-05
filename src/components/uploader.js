@@ -18,13 +18,15 @@ const Uploader = ({
               action(file.target.files[0]);
             }}
           />
-          <div className="w3-container">
-            <img
-              src={image}
-              alt="upload-icon"
-              style={{ width: 200, ...imageStyle }}
-            />
-          </div>
+          {image && (
+            <div className="w3-container">
+              <img
+                src={image}
+                alt="upload-icon"
+                style={{ width: 200, ...imageStyle }}
+              />
+            </div>
+          )}
           <label
             htmlFor="fileInput"
             className="w3-btn w3-ripple w3-blue w3-round"

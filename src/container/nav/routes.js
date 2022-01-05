@@ -5,8 +5,8 @@ import upload from "../../assets/img/upload.svg";
 
 const routes = [
   { icon: home, url: "/", name: 'Home' },
-  { icon: sender, url: "/Sender", name: "Sender" },
-  { icon: settings, url: "/Settings", name: "Settings"  },
+  { icon: sender, url: "/sender", name: "Sender" },
+  { icon: settings, url: "/settings", name: "Settings"  },
 ];
 export default routes;
 

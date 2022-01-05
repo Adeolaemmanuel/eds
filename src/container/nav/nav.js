@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router";
 import menu from "../../assets/img/menu.png";
+import Uploader from "../../components/uploader";
 import routes from "./routes";
-const Nav = ({ history }) => {
+import axios from "axios";
+const Nav = () => {
   const [sideBar, setSidebar] = useState(false);
+  const history = useHistory();
+  const currentPath = history.location.pathname;
 
   useEffect(() => {
     const navAutoClose = document.addEventListener("mousedown", (event) => {
@@ -11,6 +16,26 @@ const Nav = ({ history }) => {
 
     return () => document.removeEventListener("mousedown", navAutoClose);
   }, []);
+
+  const submit = (file) => {
+    if (file.name.endsWith("csv")) {
+      setBtnText("Loading...");
+      let data = new FormData();
+      data.append("file", file);
+      axios
+        .post("/data/extract", data)
+        .then((res) => {
+          if (res.data["check"] === true) {
+            history.push("/sender");
+          }
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    } else {
+      toastAlert("Only CSV Files allowed", true);
+    }
+  };
 
   return (
     <div>
@@ -26,6 +51,9 @@ const Nav = ({ history }) => {
           }}
         >
           <img src={menu} alt={menu} width={30} height={30} />
+        </div>
+        <div className="w3-bar-item w3-right">
+          {currentPath !== "/" && <Uploader action={submit} btnText="Upload" />}
         </div>
       </nav>
 

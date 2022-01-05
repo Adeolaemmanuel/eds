@@ -29,7 +29,7 @@ const Index = () => {
         .post("/data/extract", data)
         .then((res) => {
           if (res.data["check"] === true) {
-            history.push("/Sender");
+            history.push("/sender");
           }
         })
         .catch((err) => {

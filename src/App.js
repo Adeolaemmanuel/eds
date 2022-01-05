@@ -11,8 +11,8 @@ const App = () => {
       <Router>
         <Switch>
           <Route path="/" component={Index} exact />
-          <Route path="/Sender" component={Sender} exact />
-          <Route path="/Settings" component={Settings} exact />
+          <Route path="/sender" component={Sender} exact />
+          <Route path="/settings" component={Settings} exact />
         </Switch>
       </Router>
     </div>
