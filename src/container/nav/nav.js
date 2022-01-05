@@ -1,16 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router";
 import menu from "../../assets/img/menu.png";
-import Uploader from "../../components/uploader";
 import routes from "./routes";
-import axios from "axios";
-import { useToastAlert } from "../../assets/scripts/utils";
-const Nav = () => {
+const Nav = ({ history }) => {
   const [sideBar, setSidebar] = useState(false);
-  const {toastAlert, isVisible, setIsVisible, message, error} = useToastAlert()
-  const [btnText, setBtnText] = useState("Upload File");
-  const history = useHistory();
-  const currentPath = history.location.pathname;
 
   useEffect(() => {
     const navAutoClose = document.addEventListener("mousedown", (event) => {
@@ -19,26 +11,6 @@ const Nav = () => {
 
     return () => document.removeEventListener("mousedown", navAutoClose);
   }, []);
-
-  const submit = (file) => {
-    if (file.name.endsWith("csv")) {
-      setBtnText("Loading...");
-      let data = new FormData();
-      data.append("file", file);
-      axios
-        .post("/data/extract", data)
-        .then((res) => {
-          if (res.data["check"] === true) {
-            history.push("/sender");
-          }
-        })
-        .catch((err) => {
-          alert(err);
-        });
-    } else {
-      toastAlert("Only CSV Files allowed", true);
-    }
-  };
 
   return (
     <div>
@@ -54,9 +26,6 @@ const Nav = () => {
           }}
         >
           <img src={menu} alt={menu} width={30} height={30} />
-        </div>
-        <div className="w3-bar-item w3-right">
-          {currentPath !== "/" && <Uploader action={submit} btnText="Upload" />}
         </div>
       </nav>
 
