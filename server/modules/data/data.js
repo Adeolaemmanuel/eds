@@ -8,7 +8,7 @@ const { Server } = require("socket.io");
 const io = new Server(http);
 const data = exppress.Router();
 const upload = multer({ dest: "uploads/" });
-const Controller = require("../controller");
+const Controller = require("../../controller");
 const controller = new Controller();
 const nodemailer = require("nodemailer");
 
