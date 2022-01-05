@@ -1,7 +1,7 @@
 {
   "name": "eds",
   "version": "0.1.0",
-  "main": "server.js",
+  "main": "./server/server.js",
   "description": "Email dilivery service",
   "author": "adeolaemmanuel006 <adeolaemmanuel006@gmail.com>",
   "private": true,
@@ -34,7 +34,7 @@
   },
   "scripts": {
     "dev": "react-scripts start",
-    "start": "node server.js",
+    "start": "node ./server/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
