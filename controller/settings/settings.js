@@ -21,25 +21,26 @@ settings.post("/", (req, res, next) => {
 });
 
 settings.post("/smtp", (req, res, next) => {
-  if (req.body.smtp) {
-    if (
-      req.body.smtp.smtp.match(
-        /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/gi
-      )
-    ) {
-      smtp = req.body.smtp;
-      if (req.body.smtp.secure === "true") {
-        smtp.secure = true;
-      } else {
-        smtp.secure = false;
-      }
-      res.json({ msg: "Smtp set successfuly" });
-    } else {
-      res.json({ err: "Invalid Smtp" });
-    }
-  } else {
-    res.json({ err: "Error setting Smtp" });
-  }
+  // if (req.body.smtp) {
+  //   if (
+  //     req.body.smtp.smtp.match(
+  //       /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/gi
+  //     )
+  //   ) {
+  //     smtp = req.body.smtp;
+  //     if (req.body.smtp.secure === "true") {
+  //       smtp.secure = true;
+  //     } else {
+  //       smtp.secure = false;
+  //     }
+  //     res.json({ msg: "Smtp set successfuly" });
+  //   } else {
+  //     res.json({ err: "Invalid Smtp" });
+  //   }
+  // } else {
+  //   res.json({ err: "Error setting Smtp" });
+  // }
+  res.json({err: "Function disabled"})
 });
 
 module.exports = settings;

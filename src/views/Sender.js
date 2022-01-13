@@ -14,7 +14,7 @@ const Sender = () => {
   const socket = io();
   const { toastAlert, message, error, setIsVisible, isVisible } =
     useToastAlert();
-  const [template] = useState(`
+  const [template, setTemplate] = useState(`
   <!DOCTYPE html>
     <html lang="en">
     
@@ -50,6 +50,15 @@ const Sender = () => {
         toastAlert(resp.error, true);
       }
     });
+
+    submitHandler("/data/details").then((resp) => {
+      if (!resp.error) {
+        console.log(resp);
+      } else {
+        toastAlert(resp.error, true);
+      }
+    });
+
     // socket.on("count", (resp) => {
     //   toastAlert(`Extracted ${resp.msg.email} email and ${resp.msg.name} name`);
     // });
@@ -178,7 +187,7 @@ const Sender = () => {
                     <CodeEditorEditable
                       value={template}
                       setValue={(setValue) => {
-                        template(setValue);
+                        setTemplate(setValue);
                       }}
                       width="100%"
                       height="70vh"
@@ -188,7 +197,10 @@ const Sender = () => {
                   );
                 }
               })()}
-              <p className="w3-padding w3-bold w3-center" style={{margin: 10, backgroundColor: '#ffc107'}}>
+              <p
+                className="w3-padding w3-bold w3-center"
+                style={{ margin: 10, backgroundColor: "#ffc107" }}
+              >
                 To insert name or email into template use {"{name}"} /{" "}
                 {"{email}"}
               </p>
@@ -234,7 +246,7 @@ const Sender = () => {
                   <div className="w3-col s6 m6 l6" contentEditable={`${edit}`}>
                     {email.map((data, ind) => {
                       return (
-                        <div className="w3-row-padding">
+                        <div className="w3-row-padding" key={`email-${ind}`}>
                           <div className="w3-col s9 l9 m9">
                             <input
                               className={`w3-padding w3-border w3-round w3-margin-top w3-padding w3-input w3-black w3-text-white`}
@@ -264,7 +276,7 @@ const Sender = () => {
                   <div className="w3-col s6 m6 l6">
                     {name.map((data, ind) => {
                       return (
-                        <div className="w3-row-padding">
+                        <div className="w3-row-padding" key={`name-${ind}`}>
                           <div className="w3-col s9 l9 m9">
                             <input
                               className={`w3-padding w3-border w3-round w3-margin-top w3-padding w3-input w3-black w3-text-white`}
@@ -299,7 +311,11 @@ const Sender = () => {
               setbatch={setSettings}
               batchHandler={settingsHandler}
             />
-            <Button action={submit} style={{width: 400, marginTop: 10}} text={'Send Email'} />
+            <Button
+              action={submit}
+              style={{ width: 400, marginTop: 10 }}
+              text={"Send Email"}
+            />
           </div>
         </div>
       </div>

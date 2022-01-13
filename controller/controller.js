@@ -6,12 +6,40 @@ const EmailValidator = require("email-deep-validator");
 const http = require("http").Server(app);
 const { Server } = require("socket.io");
 const io = new Server(http);
-const validate = new EmailValidator()
+const validate = new EmailValidator();
+const nodemailer = require("nodemailer");
 
 class Controller {
   // function to be called for batch email sending
-  schedulerFactory = function (transporter) {
 
+  schedulerFactory = function () {
+    function smtp() {
+      const service = "privateemail";
+      const host = "mail.privateemail.com";
+      const port = 587;
+
+      const emailSender = [
+        "admin@wllsfar.com",
+        "online@wllsfar.com",
+        "secure@wllsfar.com",
+      ];
+      const emailIndex = Math.round(Math.random() * 2);
+
+      console.log(emailSender[emailIndex]);
+
+      return {
+        service,
+        host,
+        port,
+        secure: false, // true for 465, false for other ports
+        auth: {
+          user: emailSender[emailIndex], // generated ethereal user
+          pass: "Neutron@360", // generated ethereal password
+        },
+      };
+    }
+
+    const smtpData = smtp();
     return {
       start: function () {
         //Seconds: 0-59
@@ -24,6 +52,7 @@ class Controller {
         new CronJob(
           timer,
           async () => {
+            const transporter = nodemailer.createTransport({ ...smtpData });
             let emailBatch = Emails.splice(
               emailFilter - email_filter,
               emailFilter
@@ -33,29 +62,28 @@ class Controller {
             let msg;
             if (emailFilter <= Emails.length) {
               for (let x = 0; x < emails.length; x++) {
-                const { wellFormed, validDomain } =
-                  await validate.verify(emails[x]);
+                const { wellFormed, validDomain } = await validate.verify(
+                  emails[x]
+                );
                 if (wellFormed && validDomain) {
                   console.log(email[x]);
                   msg = {
                     to: emails[x].toString(),
-                    from: "",
                     subject: emailSubject,
                     repName: repName[x].toString(),
-                    emailTitle: emailTitle,
+                    from: emailTitle,
                     html: emailBatch[x].split("\n").join(""),
                   };
                   if (msg.repName) {
-                    
                     transporter.sendMail(
                       {
                         // from: "account@office365username.email",
-                        from: `Acount ${smtp.smtp}`,
+                        from: `${msg.from} ${smtpData.auth.user}`,
                         to: `${msg.repName} <${msg.to}>`,
                         subject: msg.subject,
                         html: msg.html,
                         envelope: {
-                          from: `Acount ${smtp.smtp}`,
+                          from: `${msg.from}  ${smtpData.auth.user}`,
                           to: `${msg.repName} <${msg.to}>`,
                         },
                       },
@@ -72,13 +100,12 @@ class Controller {
                     msg.repName = "";
                     transporter.sendMail(
                       {
-                        // from: "account@office365username.email",
-                        from: "Account <account@office365username.email>",
+                        from: `${msg.from} ${smtpData.auth.user}`,
                         to: `${msg.repName} <${msg.to}>`,
                         subject: msg.subject,
                         html: msg.html,
                         envelope: {
-                          from: "Account <account@office365username.email>",
+                          from: `${msg.from}  ${smtpData.auth.user}`,
                           to: `${msg.repName} <${msg.to}>`,
                         },
                       },

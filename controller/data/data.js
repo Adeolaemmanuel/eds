@@ -10,10 +10,8 @@ const data = exppress.Router();
 const upload = multer({ dest: "uploads/" });
 const Controller = require("../controller");
 const controller = new Controller();
-const nodemailer = require("nodemailer");
 
 const smtp = global.smtp;
-const transporter = nodemailer.createTransport({...smtp});
 
 data.get("/", (req, res) => {
   let emails = [];
@@ -77,12 +75,21 @@ data.post("/send", (req, res) => {
     }
   }
   res.json({ msg: "Data Submited" });
-  controller.schedulerFactory(transporter).start();
+  controller.schedulerFactory().start();
 });
 
 data.post("/extract", upload.single("file"), (req, res) => {
   filePath = req.file.path;
   res.json({ check: true });
+});
+
+data.get("/details", (req, res) => {
+  const data = {
+    subject: global.emailSubject,
+    title: global.emailTitle,
+  };
+  console.log(data);
+  return res.json(data);
 });
 
 module.exports = data;
